@@ -1,0 +1,47 @@
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+"http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+   
+    <!-- Configuration for the default package. -->
+<package name="default" extends="struts-default" namespace="/">
+                <interceptors>
+	     <interceptor name="login" class="com.mss.ediscv.general.LoginInterceptor" />
+            <interceptor-stack name="crudStack">
+		  <interceptor-ref name="login"/>
+                <interceptor-ref name="checkbox"/>
+                <interceptor-ref name="params"/>
+                <interceptor-ref name="staticParams"/>
+                <interceptor-ref name="actionMappingParams"/>
+                <interceptor-ref name="defaultStack"/>
+            </interceptor-stack>
+        </interceptors>
+	 
+        <global-results>
+            <result name="sessionExpire">/general/login.jsp</result>
+      </global-results>
+    
+    </package>
+    
+    <include file="general.xml"/>
+    <include file="doc.xml"/>
+    <include file="po.xml"/>
+    <include file="shipment.xml"/>
+    <include file="inv.xml"/>
+    <include file="payment.xml"/>
+    <include file="ajax.xml"/>
+    <include file="download.xml"/>
+    <include file="tp.xml"/>
+    <include file="lfc.xml"/>
+    <include file="tradingPartner.xml"/>
+    <include file="user.xml"/>
+    <include file="issue.xml"/>
+       <include file="logistics.xml"/>
+    <include file="retailer.xml"/>
+    <include file="manifacturing.xml"/>
+    <include file="switchFlow.xml"/>
+    <include file="ltResponse.xml"/>
+    <include file="logisticsdoc.xml"/>
+    <include file="loadtendering.xml"/>
+</struts>

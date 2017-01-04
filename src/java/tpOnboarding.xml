@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+    <package name="tpOnboarding" namespace="/tpOnboarding" extends="default">
+        <default-interceptor-ref name="crudStack"/>      
+        
+        <action name="tpoSuccess" class="com.mss.ediscv.tpOnboarding.TpOnboardingAction" method="tpoSuccess">
+            <result type="redirect">../tpOnboarding/tpoPartnerInfo.action</result>
+           <!-- <result>/tpOnboarding/tpoPartnerInfo.jsp</result>-->
+            <result name="tpoRegister">/tpOnboarding/tpoRegister.jsp</result>
+<!--            <result name="tpoEditDetailsPage">/tpOnboarding/tpoPartnerInfo.jsp</result>-->
+            <result name="tpoPartnerInfo">/tpOnboarding/tpoPartnerInfo.jsp</result>
+            <result name="input">/tpOnboarding/tpLogin.jsp</result>
+            <result type="redirect" name="login">../tpOnboarding/tpoLogin.action</result>
+            <result name="error" type="redirect" >../exception/exception.action</result> 
+        </action>
+        <action name="tpoUserAdd" class="com.mss.ediscv.tpOnboarding.TpOnboardingAction" method="tpoUserAdd">
+            <result name="success">/tpOnboarding/tpoRegister.jsp</result>
+            <result type="redirect" name="login">../tpOnboarding/tpoLogin.action</result>
+            <result name="error" type="redirect" >../exception/exception.action</result> 
+        </action>
+        <action name="tpoPartnerAdd" class="com.mss.ediscv.tpOnboarding.TpOnboardingAction" method="tpoPartnerAdd">
+            <result name="success">/tpOnboarding/tpoPartnerAdd.jsp</result>
+            <result type="redirect" name="login">../tpOnboarding/tpoLogin.action</result>
+            <result name="error" type="redirect" >../exception/exception.action</result> 
+        </action>
+        <action name="tpoRegister" class="com.mss.ediscv.tpOnboarding.TpOnboardingAction" method="tpoRegister">
+            <result>/tpOnboarding/tpoRegister.jsp</result>
+            <result name="error" type="redirect" >../exception/exception.action</result> 
+            <result type="redirect" name="login">login.action</result>
+            <result name="accessFailed" type="redirect" >../exception/accessFailed.action</result> 
+        </action>
+        <action name="tpoPartnerInfo" class="com.mss.ediscv.tpOnboarding.TpOnboardingAction" method="tpoPartnerInfo">
+            <result name="success">/tpOnboarding/tpoPartnerInfo.jsp</result>
+            <result type="redirect" name="login">../tpOnboarding/tpoLogin.action</result>
+            <result name="error" type="redirect" >../exception/exception.action</result> 
+        </action>
+        <action name="updatePartnerInfo" class="com.mss.ediscv.tpOnboarding.TpOnboardingAction" method="updatePartnerInfo">
+            <result name="success">/tpOnboarding/tpoPartnerInfo.jsp</result>
+            <result type="redirect" name="login">../tpOnboarding/tpoLogin.action</result>
+            <result name="error" type="redirect" >../exception/exception.action</result> 
+        </action>
+        <action name="tpoAddProfile" class="com.mss.ediscv.tpOnboarding.TpOnboardingAction" method="tpoAddProfile">
+            <result name="success">/tpOnboarding/tpoProfile.jsp</result>
+            <result type="redirect" name="login">../tpOnboarding/tpoLogin.action</result>
+            <result name="error" type="redirect" >../exception/exception.action</result> 
+        </action>
+        
+           <action name="tpoAddEnvelop" class="com.mss.ediscv.tpOnboarding.TpOnboardingAction" method="tpoAddEnvelop">
+            <result name="success">/tpOnboarding/tpoEnvelopes.jsp</result>
+            <result type="redirect" name="login">../tpOnboarding/tpoLogin.action</result>
+            <result name="error" type="redirect" >../exception/exception.action</result> 
+        </action>
+           <action name="tpoManageProfiles" class="com.mss.ediscv.tpOnboarding.TpOnboardingAction" method="tpoSchProfiles">
+            <result name="success">/tpOnboarding/tpoSearchProfile.jsp</result>
+             <result type="redirect" name="login">../tpOnboarding/tpoLogin.action</result>
+            <result name="error" type="redirect" >../exception/exception.action</result> 
+        </action>
+           <action name="manageProfile" class="com.mss.ediscv.tpOnboarding.TpOnboardingAction" method="tpoMngProfiles">
+            <result name="success">/tpOnboarding/tpoSearchProfile.jsp</result>
+             <result type="redirect" name="login">../tpOnboarding/tpoLogin.action</result>
+            <result name="error" type="redirect" >../exception/exception.action</result> 
+        </action>
+        <action name="tpoDeleteProfile" class="com.mss.ediscv.tpOnboarding.TpOnboardingAction" method="tpoDeleteProfile">
+            <result name="success">/tpOnboarding/tpoSearchProfile.jsp</result>
+            <result type="redirect" name="login">../tpOnboarding/tpoLogin.action</result>
+            <result name="error" type="redirect" >../exception/exception.action</result> 
+        </action>
+        
+         <action name="tpoManageEnvelops" class="com.mss.ediscv.tpOnboarding.TpOnboardingAction" method="tpoManageEnvelops">
+               <result name="success">/tpOnboarding/tpoSearchEnvelope.jsp</result>
+            <result type="redirect" name="login">../tpOnboarding/tpoLogin.action</result>
+            <result name="error" type="redirect" >../exception/exception.action</result>
+        </action>
+        
+           <action name="tpogetProfile" class="com.mss.ediscv.tpOnboarding.TpOnboardingAction" method="tpogetProfile">
+<!--            <result name="success" type="redirect">../tpOnboarding/tpoAddProfile.action</result>-->
+            <result name="success">/tpOnboarding/tpoProfile.jsp</result>
+             <result type="redirect" name="login">../tpOnboarding/tpoLogin.action</result>
+            <result name="error" type="redirect" >../exception/exception.action</result> 
+        </action>
+           <action name="addTpoProfile" class="com.mss.ediscv.tpOnboarding.TpOnboardingAction" method="addTpoProfile">
+            <result name="success" type="redirect">../tpOnboarding/tpoAddProfile.action</result>
+             <result type="redirect" name="login">../tpOnboarding/tpoLogin.action</result>
+            <result name="error" type="redirect" >../exception/exception.action</result> 
+        </action>
+        <!--oooooooooollllllllllllddddddddddd-->
+         <!-- new users for tpo--> 
+        <action name="addTpOnboard" class="com.mss.ediscv.tpOnboarding.TpOnboardingAction" method="doAddTP">
+            <!-- <result type="redirect">/tpOnboarding/tpOnboardingDetails.jsp</result> 
+            <result type="redirect">./tpoSuccess.action?existFirst=1</result> -->
+            <result type="redirect">./tpoSuccess.action</result>
+            <result name="error" type="redirect" >../exception/exception.action</result> 
+            <result type="redirect" name="login">login.action</result>
+            <result name="accessFailed" type="redirect" >../exception/accessFailed.action</result> 
+        </action>  
+         
+        <action name="updateTpOnboard" class="com.mss.ediscv.tpOnboarding.TpOnboardingAction" method="doUpdateTPO">
+           <!-- <result>/tpOnboarding/tpoOnbordinggetDeatils.jsp</result> -->
+            <result type="redirect">./tpoSuccess.action</result>
+            <result name="error" type="redirect" >../exception/exception.action</result> 
+            <result type="redirect" name="login">login.action</result>
+            <result name="accessFailed" type="redirect" >../exception/accessFailed.action</result> 
+        </action>
+         
+         <!-- New action for download certification 
+         <action name = "tpOnboardingDownloads" class="com.mss.ediscv.tpOnboarding.TpOnboardingAction" method="tpOnboardingDownloads"/>
+             <action name="tpoPartnerInfo" class="com.mss.ediscv.tpOnboarding.TpOnboardingAction" method="profileInfo">
+            <result>/tpOnboarding/tpoPartnerInfo.jsp</result> 
+        </action>
+            <action name="tpoProfile" class="com.mss.ediscv.tpOnboarding.TpOnboardingAction" method="communicationProtocol">
+         <result>/tpOnboarding/tpoProfile.jsp</result> 
+        </action>
+            <action name="tpoEnvelopes" class="com.mss.ediscv.tpOnboarding.TpOnboardingAction" method="envelopes">
+           <result>/tpOnboarding/tpoEnvelopes.jsp</result> 
+        </action>
+   <action name="tpoAddProfile" class="com.mss.ediscv.tpOnboarding.TpOnboardingAction" method="tpoAddProfile">
+         <result>/tpOnboarding/tpoAddProfile.jsp</result> 
+        </action>
+       -->
+    </package>
+</struts>

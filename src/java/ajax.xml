@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+"http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<!--
+    Document   : ajax.xml
+    Created on : Mar 20, 2013, 4:51 PM
+    Author     : miracle
+    Description:
+        Purpose of the document follows.
+-->
+
+<struts>
+    <package name="ajax" extends="default" namespace="/ajax">
+
+        <default-interceptor-ref name="crudStack"/>
+       
+        <action name="getProtocolDetails" class="com.mss.ediscv.ajax.AjaxHandlerAction" method="getProtocolDetails"/>   
+        <action name="isExistedPartnerName" class="com.mss.ediscv.ajax.AjaxHandlerAction" method="isExistedPartnerName"/>
+        <action name="isExistedUserEmail" class="com.mss.ediscv.ajax.AjaxHandlerAction" method="isExistedUserEmail"/>
+        <action name="isExistedAS2PartnerProfileName" class="com.mss.ediscv.ajax.AjaxHandlerAction" method="isExistedAS2PartnerProfileName"/>
+    <action name="addPartner" class="com.mss.ediscv.ajax.AjaxHandlerAction" method="addPartner"/>
+    <action name="getDeleteProfile" class="com.mss.ediscv.ajax.AjaxHandlerAction" method="getDeleteProfile"/>
+    </package>
+</struts>

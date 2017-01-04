@@ -1,0 +1,1053 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.mss.ediscv.util;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
+/**
+ *
+ * @author miracle
+ */
+public class DataSourceDataProvider {
+    private static DataSourceDataProvider _instance;
+    private DataSourceDataProvider() {
+
+	}
+
+	public static DataSourceDataProvider getInstance() {
+
+		if (_instance == null) {
+			_instance = new DataSourceDataProvider();
+		}
+		return _instance;
+	}
+    
+    
+    public List getCorrelationNames(int st,int groupId) throws ServiceLocatorException{
+      Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String queryString = null;
+        connection = ConnectionProvider.getInstance().getConnection(); 
+        List correlationList = new ArrayList();
+        
+        try {
+            if(st == 0){
+            queryString = "SELECT DISTINCT(NAME) FROM CORRELATION where GROUP_ID="+groupId+" order by NAME";
+            }else{
+                queryString = "SELECT DISTINCT(NAME) FROM CORRELATION where GROUP_ID="+groupId+" AND MODE_ID="+st+" order by NAME";
+            }
+           // System.out.println("Query-->"+queryString);
+            preparedStatement = connection.prepareStatement(queryString);
+            resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()) {
+                correlationList.add(resultSet.getString("NAME"));
+            }
+            
+            
+        }catch (SQLException sql) {
+            throw new ServiceLocatorException(sql);
+        }finally{
+            try {
+                 if(resultSet != null) {
+                    resultSet.close();
+                    resultSet = null;
+                }
+                if(preparedStatement != null) {
+                    preparedStatement.close();
+                    preparedStatement = null;
+                }
+                if(connection != null) {
+                    connection.close();
+                    connection = null;
+                }
+            } catch (SQLException ex) {
+                throw new ServiceLocatorException(ex);
+            }
+        }
+        
+        return correlationList;
+    }
+    
+    /*
+     * 
+     * Method for getting DocumentTypes
+     */
+  /*  public Map getDocumentTypeMap(int st,int groupId) throws ServiceLocatorException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String queryString = null;
+        connection = ConnectionProvider.getInstance().getConnection(); 
+        
+         Map docTypeMap = new TreeMap();
+        
+        try {
+          // System.out.println("in doc type map");
+            if(st == 0){
+                queryString = "SELECT ID,NAME FROM DOCUMENTTYPES where GROUP_ID="+groupId+" ORDER BY NAME";
+            }else {
+                queryString = "SELECT ID,NAME FROM DOCUMENTTYPES where GROUP_ID="+groupId+" AND MODE_ID="+st+" ORDER BY NAME";
+            }
+            //System.out.println("queryString--->"+queryString);
+            preparedStatement = connection.prepareStatement(queryString);
+            resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()) {
+                docTypeMap.put(resultSet.getString("ID"), resultSet.getString("NAME"));
+            }
+            
+            
+        }catch (SQLException sql) {
+            throw new ServiceLocatorException(sql);
+        }finally{
+            try {
+                if(resultSet != null) {
+                    resultSet.close();
+                    resultSet = null;
+                }
+                if(preparedStatement != null) {
+                    preparedStatement.close();
+                    preparedStatement = null;
+                }
+                if(connection != null) {
+                    connection.close();
+                    connection = null;
+                }
+            } catch (SQLException ex) {
+                throw new ServiceLocatorException(ex);
+            }
+        }
+        //System.out.println("map-->"+docTypeMap);
+        return docTypeMap;
+    }*/
+
+    /**
+     *   DESC : doc type as list
+     * @return
+     * @throws ServiceLocatorException 
+     */
+    
+        public List getDocumentTypeList(int st,int groupId) throws ServiceLocatorException {
+       Connection connection = null;
+       PreparedStatement preparedStatement = null;
+       ResultSet resultSet = null;
+       String queryString = null;
+       connection = ConnectionProvider.getInstance().getConnection();
+       List docTypeMap = new ArrayList();
+       
+       try {
+          // System.out.println("st--->"+st);
+           
+           if(st == 0){
+               queryString = "SELECT NAME FROM DOCUMENTTYPES where GROUP_ID="+groupId;
+           }else {
+               queryString = "SELECT NAME FROM DOCUMENTTYPES where GROUP_ID="+groupId+" AND MODE_ID="+st;
+           }
+           //System.out.println("queryString--->"+queryString);
+           preparedStatement = connection.prepareStatement(queryString);
+           resultSet = preparedStatement.executeQuery();
+           while(resultSet.next()) {
+               docTypeMap.add(resultSet.getString("NAME"));
+           }
+           
+           
+       }catch (SQLException sql) {
+           throw new ServiceLocatorException(sql);
+       }finally{
+           try {
+               if(resultSet != null) {
+                   resultSet.close();
+                   resultSet = null;
+               }
+               if(preparedStatement != null) {
+                   preparedStatement.close();
+                   preparedStatement = null;
+               }
+               if(connection != null) {
+                   connection.close();
+                   connection = null;
+               }
+           } catch (SQLException ex) {
+               throw new ServiceLocatorException(ex);
+           }
+       }
+       
+       return docTypeMap;
+   }
+  /*
+     * 
+     * Map for Reteriving States
+     */
+    
+    public Map getStates() throws ServiceLocatorException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String queryString = null;
+        connection = ConnectionProvider.getInstance().getConnection(); 
+        Map statesMap = new HashMap();
+        
+        try {
+            
+            queryString = "SELECT DESCRIPTION,NAME FROM TBLLKSTATES ORDER BY DESCRIPTION";
+            preparedStatement = connection.prepareStatement(queryString);
+            resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()) {
+                statesMap.put(resultSet.getString("DESCRIPTION"), resultSet.getString("NAME"));
+            }
+            
+            
+        }catch (SQLException sql) {
+            throw new ServiceLocatorException(sql);
+        }finally{
+            try {
+                if(resultSet != null) {
+                    resultSet.close();
+                    resultSet = null;
+                }
+                if(preparedStatement != null) {
+                    preparedStatement.close();
+                    preparedStatement = null;
+                }
+                if(connection != null) {
+                    connection.close();
+                    connection = null;
+                }
+            } catch (SQLException ex) {
+                throw new ServiceLocatorException(ex);
+            }
+        }
+        
+        return statesMap;
+    }
+    
+    /**
+     * DESC: to get category map
+     */
+    
+     public Map getCategory() throws ServiceLocatorException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String queryString = null;
+        connection = ConnectionProvider.getInstance().getConnection(); 
+        Map categoryMap = new HashMap();
+        
+        try {
+            
+            queryString = "SELECT CAT_ID,CAT_NAME FROM MSCVP_CATEGORY OREDER BY CAT_ID";
+            preparedStatement = connection.prepareStatement(queryString);
+            resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()) {
+                categoryMap.put(resultSet.getString("CAT_ID"), resultSet.getString("CAT_NAME"));
+            }
+            
+            
+        }catch (SQLException sql) {
+            throw new ServiceLocatorException(sql);
+        }finally{
+            try {
+                if(resultSet != null) {
+                    resultSet.close();
+                    resultSet = null;
+                }
+                if(preparedStatement != null) {
+                    preparedStatement.close();
+                    preparedStatement = null;
+                }
+                if(connection != null) {
+                    connection.close();
+                    connection = null;
+                }
+            } catch (SQLException ex) {
+                throw new ServiceLocatorException(ex);
+            }
+        }
+        
+        return categoryMap;
+    }
+    
+        /**
+         * DESC: priority map
+         * 
+         */
+     public Map getPriority() throws ServiceLocatorException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String queryString = null;
+        connection = ConnectionProvider.getInstance().getConnection(); 
+        Map priorityMap = new HashMap();
+        
+        try {
+            
+            queryString = "SELECT PRI_ID,PRI_NAME FROM	MSCVP_PRIORITY ORDER BY PR_ID";
+            preparedStatement = connection.prepareStatement(queryString);
+            resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()) {
+                priorityMap.put(resultSet.getString("PRI_ID"), resultSet.getString("PRI_NAME"));
+            }
+            
+            
+        }catch (SQLException sql) {
+            throw new ServiceLocatorException(sql);
+        }finally{
+            try {
+                if(resultSet != null) {
+                    resultSet.close();
+                    resultSet = null;
+                }
+                if(preparedStatement != null) {
+                    preparedStatement.close();
+                    preparedStatement = null;
+                }
+                if(connection != null) {
+                    connection.close();
+                    connection = null;
+                }
+            } catch (SQLException ex) {
+                throw new ServiceLocatorException(ex);
+            }
+        }
+        
+        return priorityMap;
+    }
+         
+         /**
+          *  Name : getEmailByLoginId() 
+          *  DESC: To get the Email of an employee based on his logid
+          *  Return : String , EmilaId
+          *  
+          *  Date created : 05-02-2013
+          */
+   public String getEmailByLoginId(String loginid) throws ServiceLocatorException{
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String queryString = null;
+        connection = ConnectionProvider.getInstance().getConnection(); 
+        //Map priorityMap = new HashMap();
+        String emialid=null;
+        
+        try {
+            
+            queryString = "select EMAIL from M_user where LOGINID LIKE '%"+loginid+"%'";
+            preparedStatement = connection.prepareStatement(queryString);
+            resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()) {
+                emialid = resultSet.getString("EMAIL");
+                //priorityMap.put(resultSet.getString("PRI_ID"), resultSet.getString("PRI_NAME"));
+            }
+            
+            
+        }catch (SQLException sql) {
+            throw new ServiceLocatorException(sql);
+        }finally{
+            try {
+                if(resultSet != null) {
+                    resultSet.close();
+                    resultSet = null;
+                }
+                if(preparedStatement != null) {
+                    preparedStatement.close();
+                    preparedStatement = null;
+                }
+                if(connection != null) {
+                    connection.close();
+                    connection = null;
+                }
+            } catch (SQLException ex) {
+                throw new ServiceLocatorException(ex);
+            }
+        }
+        
+        return emialid;
+         }
+   
+   
+   
+   public String getNameByLoginId(String loginid) throws ServiceLocatorException{
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String queryString = null;
+        connection = ConnectionProvider.getInstance().getConnection(); 
+        //Map priorityMap = new HashMap();
+        String name=null;
+        
+        try {
+            
+            queryString = "select concat(FNME,LNME) as name from M_user where LOGINID LIKE '%"+loginid+"%'";
+            preparedStatement = connection.prepareStatement(queryString);
+            resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()) {
+                name = resultSet.getString("name");
+                //priorityMap.put(resultSet.getString("PRI_ID"), resultSet.getString("PRI_NAME"));
+            }
+            
+            
+        }catch (SQLException sql) {
+            throw new ServiceLocatorException(sql);
+        }finally{
+            try {
+                if(resultSet != null) {
+                    resultSet.close();
+                    resultSet = null;
+                }
+                if(preparedStatement != null) {
+                    preparedStatement.close();
+                    preparedStatement = null;
+                }
+                if(connection != null) {
+                    connection.close();
+                    connection = null;
+                }
+            } catch (SQLException ex) {
+                throw new ServiceLocatorException(ex);
+            }
+        }
+        
+        return name;
+         }
+   
+    public Map getFlows(int empId) throws ServiceLocatorException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String queryString = null;
+        connection = ConnectionProvider.getInstance().getConnection(); 
+        Map flowMap = new HashMap();
+        
+        try {
+            
+            queryString = "SELECT PRIORITY,MSCVP_FLOWS.FLOWNAME,MSCVP_FLOWS.ID FROM MSCVP_FLOWS LEFT OUTER JOIN M_USER_FLOWS_ACTION ON (MSCVP_FLOWS.ID = M_USER_FLOWS_ACTION.FLOWID) WHERE USER_ID="+empId+" order by PRIORITY";
+            preparedStatement = connection.prepareStatement(queryString);
+            resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()) {
+               // flowMap.put(resultSet.getString("PRIORITY"), resultSet.getString("FLOWNAME"));
+                 flowMap.put(resultSet.getString("ID"), resultSet.getString("FLOWNAME"));
+            }
+            
+            
+        }catch (SQLException sql) {
+            throw new ServiceLocatorException(sql);
+        }finally{
+            try {
+                if(resultSet != null) {
+                    resultSet.close();
+                    resultSet = null;
+                }
+                if(preparedStatement != null) {
+                    preparedStatement.close();
+                    preparedStatement = null;
+                }
+                if(connection != null) {
+                    connection.close();
+                    connection = null;
+                }
+            } catch (SQLException ex) {
+                throw new ServiceLocatorException(ex);
+            }
+        }
+        
+        return flowMap;
+    }
+   
+   /**
+     * to get the roleName
+   */
+       public String getRoleNameByRoleId(String roleId) throws ServiceLocatorException{
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String queryString = null;
+        connection = ConnectionProvider.getInstance().getConnection(); 
+        //Map priorityMap = new HashMap();
+        String RoleName=null;
+        
+        try {
+            
+            queryString = "select ROLE_NAME from MSCVP_ROLES where Id="+roleId;
+            preparedStatement = connection.prepareStatement(queryString);
+            resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()) {
+                RoleName = resultSet.getString("ROLE_NAME");
+                //priorityMap.put(resultSet.getString("PRI_ID"), resultSet.getString("PRI_NAME"));
+            }
+            
+            
+        }catch (SQLException sql) {
+            throw new ServiceLocatorException(sql);
+        }finally{
+            try {
+                if(resultSet != null) {
+                    resultSet.close();
+                    resultSet = null;
+                }
+                if(preparedStatement != null) {
+                    preparedStatement.close();
+                    preparedStatement = null;
+                }
+                if(connection != null) {
+                    connection.close();
+                    connection = null;
+                }
+            } catch (SQLException ex) {
+                throw new ServiceLocatorException(ex);
+            }
+        }
+        
+        return RoleName;
+         }
+       
+       /**
+        *  To getPriorityById
+        */
+       
+      public String getPriorityById(int id) throws ServiceLocatorException {
+       Connection connection = null;
+       PreparedStatement preparedStatement = null;
+       ResultSet resultSet = null;
+       String queryString = null;
+       connection = ConnectionProvider.getInstance().getConnection();
+       String priorityName = null;
+       
+       try {
+           
+           queryString = "SELECT PRI_NAME FROM MSCVP_PRIORITY WHERE PRI_ID ="+id;
+           preparedStatement = connection.prepareStatement(queryString);
+           resultSet = preparedStatement.executeQuery();
+           while(resultSet.next()) {
+               priorityName = resultSet.getString("PRI_NAME");
+           }
+           
+           
+       }catch (SQLException sql) {
+           throw new ServiceLocatorException(sql);
+       }finally{
+           try {
+               if(resultSet != null) {
+                   resultSet.close();
+                   resultSet = null;
+               }
+               if(preparedStatement != null) {
+                   preparedStatement.close();
+                   preparedStatement = null;
+               }
+               if(connection != null) {
+                   connection.close();
+                   connection = null;
+               }
+           } catch (SQLException ex) {
+               throw new ServiceLocatorException(ex);
+           }
+       }
+       
+       return priorityName;
+   } 
+      
+      /**
+       * To getCategoryById
+       * 
+       */
+      
+      public String getCategoryById(int id) throws ServiceLocatorException {
+       Connection connection = null;
+       PreparedStatement preparedStatement = null;
+       ResultSet resultSet = null;
+       String queryString = null;
+       connection = ConnectionProvider.getInstance().getConnection();
+       String categoryName = null;
+       
+       try {
+           
+           queryString = "SELECT CAT_NAME FROM MSCVP_CATEGORY WHERE CAT_ID ="+id;
+           preparedStatement = connection.prepareStatement(queryString);
+           resultSet = preparedStatement.executeQuery();
+           while(resultSet.next()) {
+               categoryName = resultSet.getString("CAT_NAME");
+           }
+           
+           
+       }catch (SQLException sql) {
+           throw new ServiceLocatorException(sql);
+       }finally{
+           try {
+               if(resultSet != null) {
+                   resultSet.close();
+                   resultSet = null;
+               }
+               if(preparedStatement != null) {
+                   preparedStatement.close();
+                   preparedStatement = null;
+               }
+               if(connection != null) {
+                   connection.close();
+                   connection = null;
+               }
+           } catch (SQLException ex) {
+               throw new ServiceLocatorException(ex);
+           }
+       }
+       
+       return categoryName;
+   }
+      
+      /**
+       * To get user map
+       */
+      public Map getUsers() throws ServiceLocatorException {
+       Connection connection = null;
+       PreparedStatement preparedStatement = null;
+       ResultSet resultSet = null;
+       String queryString = null;
+       connection = ConnectionProvider.getInstance().getConnection();
+       Map usersMap = new HashMap();
+       
+       try {
+           
+           queryString = "select LOGINID,concat(FNME,LNME) as cname from M_USER as MU left outer join M_USER_ROLES as MUR on (MU.id=MUR.USER_ID)WHERE MUR.ROLE_ID != 1";
+           preparedStatement = connection.prepareStatement(queryString);
+           resultSet = preparedStatement.executeQuery();
+           while(resultSet.next()) {
+               usersMap.put(resultSet.getString("LOGINID"), resultSet.getString("cname"));
+           }
+           
+           
+       }catch (SQLException sql) {
+           throw new ServiceLocatorException(sql);
+       }finally{
+           try {
+               if(resultSet != null) {
+                   resultSet.close();
+                   resultSet = null;
+               }
+               if(preparedStatement != null) {
+                   preparedStatement.close();
+                   preparedStatement = null;
+               }
+               if(connection != null) {
+                   connection.close();
+                   connection = null;
+               }
+           } catch (SQLException ex) {
+               throw new ServiceLocatorException(ex);
+           }
+       }
+       
+       return usersMap;
+   }
+      
+       /*
+        * 
+        * For Assgetting Assigned Flows
+        * Date : )5/03/2013
+        * Author : Santosh
+        */
+       public Map getAssignedFlows(int userId) throws ServiceLocatorException{
+        
+        Map assignedRoleMap =  new TreeMap(); // Key-Description
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+        String queryString = null;
+        
+        connection = ConnectionProvider.getInstance().getConnection();
+        try {
+            statement = connection.createStatement();
+            
+            
+           // resultSet = statement.executeQuery("SELECT ID,FLOWNAME FROM MSCVP_ROLES LEFT OUTER JOIN M_USER_ROLES on (MSCVP_ROLES.ID=M_USER_ROLES.ROLE_ID) where USER_ID="+userId+" AND ID != 1 ORDER BY ROLE_NAME");
+            resultSet = statement.executeQuery("SELECT MSCVP_FLOWS.ID,MSCVP_FLOWS.FLOWNAME FROM MSCVP_FLOWS LEFT OUTER JOIN M_USER_FLOWS_ACTION ON (MSCVP_FLOWS.ID = M_USER_FLOWS_ACTION.FLOWID) where USER_ID="+userId+" AND MSCVP_FLOWS.ID != 1 ORDER BY FLOWID");
+            while(resultSet.next()) {
+                assignedRoleMap.put(resultSet.getString("ID"),resultSet.getString("FLOWNAME"));
+            }
+            
+            
+        } catch (SQLException sql) {
+            throw new ServiceLocatorException(sql);
+        }finally{
+            try {
+                // resultSet Object Checking if it's null then close and set null
+                if(resultSet != null) {
+                    resultSet.close();
+                    resultSet = null;
+                }
+                
+                if(statement != null) {
+                    statement.close();
+                    statement = null;
+                }
+                
+                if(connection != null) {
+                    connection.close();
+                    connection = null;
+                }
+            } catch (SQLException ex) {
+                throw new ServiceLocatorException(ex);
+            }
+        }
+        return assignedRoleMap; // returning the object.
+    }//closing the method.
+       
+       
+       public Map getNotAssignedFlows(int userId) throws ServiceLocatorException{
+        Map notAssignedFlowMap = new TreeMap();// Key-Description
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+        String queryString = null;
+        connection = ConnectionProvider.getInstance().getConnection();
+        
+        try {
+            statement = connection.createStatement();
+           // resultSet = statement.executeQuery("select  ID as RoleId, ROLE_NAME  from MSCVP_ROLES where MSCVP_ROLES.ID not in (select ROLE_ID from M_USER_ROLES where USER_ID="+userId+") AND ID != 1 ORDER BY ROLE_NAME");
+             resultSet = statement.executeQuery("SELECT MSCVP_FLOWS.ID,MSCVP_FLOWS.FLOWNAME FROM MSCVP_FLOWS LEFT OUTER JOIN M_USER_FLOWS_ACTION ON (MSCVP_FLOWS.ID = M_USER_FLOWS_ACTION.FLOWID) WHERE MSCVP_FLOWS.ID NOT IN (SELECT M_USER_FLOWS_ACTION.FLOWID FROM M_USER_FLOWS_ACTION WHERE M_USER_FLOWS_ACTION.USER_ID="+userId+") AND MSCVP_FLOWS.ID != 1 ORDER BY MSCVP_FLOWS.ID");
+            while(resultSet.next()) {
+                notAssignedFlowMap.put(resultSet.getString("ID"),resultSet.getString("FLOWNAME"));
+                
+            }
+            
+            
+        } catch (SQLException sql) {
+            throw new ServiceLocatorException(sql);
+        }finally{
+            try {
+                // resultSet Object Checking if it's null then close and set null
+                if(resultSet != null) {
+                    resultSet.close();
+                    resultSet = null;
+                }
+                
+                if(statement != null) {
+                    statement.close();
+                    statement = null;
+                }
+                
+                if(connection != null) {
+                    connection.close();
+                    connection = null;
+                }
+            } catch (SQLException ex) {
+                throw new ServiceLocatorException(ex);
+            }
+        }
+        
+        return notAssignedFlowMap; // returning the object.
+    }//closing the method.
+       
+     public Map getFlowbyflowKey(String flowsKey) throws ServiceLocatorException{
+          Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+        String queryString = null;
+        connection = ConnectionProvider.getInstance().getConnection();
+         Map flowsMap = new TreeMap();//key-Description
+        if (CacheManager.getCache().containsKey(flowsKey)) {
+            
+            flowsMap  = (Map) CacheManager.getCache().get(flowsKey);
+        } else {
+            //getting sessionFactory for the HibernateUtil class.
+           // Session session = HibernateServiceLocator.getInstance().getSession();
+            
+            //Creating a transaction for the session object.
+           // Transaction tran=session.beginTransaction();
+            //Genarating a quary for retrieving the data from the database.
+            
+           // String SQL_STG="select tp.id,tp.description from RolesData as tp";
+            try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT ID,FLOWNAME FROM MSCVP_FLOWS where Id != 1");
+            while(resultSet.next()) {
+                flowsMap.put(resultSet.getString("ID"),resultSet.getString("FLOWNAME"));
+                
+            }
+            CacheManager.getCache().put(flowsKey, flowsMap);
+            
+        } catch (SQLException sql) {
+            throw new ServiceLocatorException(sql);
+        }finally{
+            try {
+                // resultSet Object Checking if it's null then close and set null
+                if(resultSet != null) {
+                    resultSet.close();
+                    resultSet = null;
+                }
+                
+                if(statement != null) {
+                    statement.close();
+                    statement = null;
+                }
+                
+                if(connection != null) {
+                    connection.close();
+                    connection = null;
+                }
+            } catch (SQLException ex) {
+                throw new ServiceLocatorException(ex);
+            }
+        }
+            
+            
+        }// closing if condition.
+        
+        return flowsMap; // returning the object.
+         
+     }  
+     
+     
+      public String getPrimaryFlowID(int userId) throws ServiceLocatorException{
+        
+        Map assignedRoleMap =  new TreeMap(); // Key-Description
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+        String queryString = null;
+        String primaryFlowId = null;
+        connection = ConnectionProvider.getInstance().getConnection();
+        try {
+            statement = connection.createStatement();
+            
+            
+           // resultSet = statement.executeQuery("SELECT ID,FLOWNAME FROM MSCVP_ROLES LEFT OUTER JOIN M_USER_ROLES on (MSCVP_ROLES.ID=M_USER_ROLES.ROLE_ID) where USER_ID="+userId+" AND ID != 1 ORDER BY ROLE_NAME");
+           // resultSet = statement.executeQuery("SELECT MSCVP_FLOWS.ID,MSCVP_FLOWS.FLOWNAME FROM MSCVP_FLOWS LEFT OUTER JOIN M_USER_FLOWS_ACTION ON (MSCVP_FLOWS.ID = M_USER_FLOWS_ACTION.FLOWID) where USER_ID="+userId+" AND MSCVP_FLOWS.ID != 1 ORDER BY FLOWID");
+             //resultSet = statement.executeQuery("SELECT MSCVP_FLOWS.ID FROM MSCVP_FLOWS  LEFT OUTER JOIN M_USER_FLOWS_ACTION ON (MSCVP_FLOWS.ID = M_USER_FLOWS_ACTION.FLOWID) where USER_ID="+userId+" AND MSCVP_FLOWS.ID != 1 AND M_USER_FLOWS_ACTION.PRIORITY = 1");
+              if(userId != 10000) {
+             resultSet = statement.executeQuery("SELECT MSCVP_FLOWS.ID FROM MSCVP_FLOWS  LEFT OUTER JOIN M_USER_FLOWS_ACTION ON (MSCVP_FLOWS.ID = M_USER_FLOWS_ACTION.FLOWID) where USER_ID="+userId+" AND MSCVP_FLOWS.ID != 1 AND M_USER_FLOWS_ACTION.PRIORITY = 1");
+            }else {
+               resultSet = statement.executeQuery("SELECT MSCVP_FLOWS.ID FROM MSCVP_FLOWS  LEFT OUTER JOIN M_USER_FLOWS_ACTION ON (MSCVP_FLOWS.ID = M_USER_FLOWS_ACTION.FLOWID) where USER_ID="+userId+" AND M_USER_FLOWS_ACTION.PRIORITY = 1"); 
+            }
+            while(resultSet.next()) {
+                //assignedRoleMap.put(resultSet.getString("ID"),resultSet.getString("FLOWNAME"));
+                primaryFlowId = resultSet.getString("ID");
+            }
+            
+            
+        } catch (SQLException sql) {
+            throw new ServiceLocatorException(sql);
+        }finally{
+            try {
+                // resultSet Object Checking if it's null then close and set null
+                if(resultSet != null) {
+                    resultSet.close();
+                    resultSet = null;
+                }
+                
+                if(statement != null) {
+                    statement.close();
+                    statement = null;
+                }
+                
+                if(connection != null) {
+                    connection.close();
+                    connection = null;
+                }
+            } catch (SQLException ex) {
+                throw new ServiceLocatorException(ex);
+            }
+        }
+        return primaryFlowId; // returning the object.
+    }//closing the method.
+       
+      public String getFlowNameByFlowID(String flowId) throws ServiceLocatorException{
+        
+        Map assignedRoleMap =  new TreeMap(); // Key-Description
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+        String queryString = null;
+        String flowName = null;
+        connection = ConnectionProvider.getInstance().getConnection();
+        try {
+            statement = connection.createStatement();
+            
+            
+           // resultSet = statement.executeQuery("SELECT ID,FLOWNAME FROM MSCVP_ROLES LEFT OUTER JOIN M_USER_ROLES on (MSCVP_ROLES.ID=M_USER_ROLES.ROLE_ID) where USER_ID="+userId+" AND ID != 1 ORDER BY ROLE_NAME");
+           // resultSet = statement.executeQuery("SELECT MSCVP_FLOWS.ID,MSCVP_FLOWS.FLOWNAME FROM MSCVP_FLOWS LEFT OUTER JOIN M_USER_FLOWS_ACTION ON (MSCVP_FLOWS.ID = M_USER_FLOWS_ACTION.FLOWID) where USER_ID="+userId+" AND MSCVP_FLOWS.ID != 1 ORDER BY FLOWID");
+             resultSet = statement.executeQuery("SELECT FLOWNAME FROM MSCVP_FLOWS where Id ="+flowId);
+            while(resultSet.next()) {
+                //assignedRoleMap.put(resultSet.getString("ID"),resultSet.getString("FLOWNAME"));
+                flowName = resultSet.getString("FLOWNAME");
+            }
+            
+            
+        } catch (SQLException sql) {
+            throw new ServiceLocatorException(sql);
+        }finally{
+            try {
+                // resultSet Object Checking if it's null then close and set null
+                if(resultSet != null) {
+                    resultSet.close();
+                    resultSet = null;
+                }
+                
+                if(statement != null) {
+                    statement.close();
+                    statement = null;
+                }
+                
+                if(connection != null) {
+                    connection.close();
+                    connection = null;
+                }
+            } catch (SQLException ex) {
+                throw new ServiceLocatorException(ex);
+            }
+        }
+        return flowName; // returning the object.
+    }//closing the method.
+         
+     public String getFlowIdByFlowName(String flowName) throws ServiceLocatorException{
+        
+        Map assignedRoleMap =  new TreeMap(); // Key-Description
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+        String queryString = null;
+        String flowId = null;
+        connection = ConnectionProvider.getInstance().getConnection();
+        try {
+            statement = connection.createStatement();
+            
+            
+           // resultSet = statement.executeQuery("SELECT ID,FLOWNAME FROM MSCVP_ROLES LEFT OUTER JOIN M_USER_ROLES on (MSCVP_ROLES.ID=M_USER_ROLES.ROLE_ID) where USER_ID="+userId+" AND ID != 1 ORDER BY ROLE_NAME");
+           // resultSet = statement.executeQuery("SELECT MSCVP_FLOWS.ID,MSCVP_FLOWS.FLOWNAME FROM MSCVP_FLOWS LEFT OUTER JOIN M_USER_FLOWS_ACTION ON (MSCVP_FLOWS.ID = M_USER_FLOWS_ACTION.FLOWID) where USER_ID="+userId+" AND MSCVP_FLOWS.ID != 1 ORDER BY FLOWID");
+             resultSet = statement.executeQuery("SELECT ID FROM MSCVP_FLOWS where FLOWNAME ='"+flowName+"'");
+            while(resultSet.next()) {
+                //assignedRoleMap.put(resultSet.getString("ID"),resultSet.getString("FLOWNAME"));
+                flowId = resultSet.getString("ID");
+            }
+            
+            
+        } catch (SQLException sql) {
+            throw new ServiceLocatorException(sql);
+        }finally{
+            try {
+                // resultSet Object Checking if it's null then close and set null
+                if(resultSet != null) {
+                    resultSet.close();
+                    resultSet = null;
+                }
+                
+                if(statement != null) {
+                    statement.close();
+                    statement = null;
+                }
+                
+                if(connection != null) {
+                    connection.close();
+                    connection = null;
+                }
+            } catch (SQLException ex) {
+                throw new ServiceLocatorException(ex);
+            }
+        }
+        return flowId; // returning the object.
+    }//closing the method.  
+     
+     /** MSSCVP roles **/
+     public Map getMsscvpRoles() throws ServiceLocatorException{
+        
+        Map assignedRoleMap =  new TreeMap(); // Key-Description
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+        String queryString = null;
+        
+        connection = ConnectionProvider.getInstance().getConnection();
+        try {
+            statement = connection.createStatement();
+            
+            
+           // resultSet = statement.executeQuery("SELECT ID,FLOWNAME FROM MSCVP_ROLES LEFT OUTER JOIN M_USER_ROLES on (MSCVP_ROLES.ID=M_USER_ROLES.ROLE_ID) where USER_ID="+userId+" AND ID != 1 ORDER BY ROLE_NAME");
+            resultSet = statement.executeQuery("select ID,Role_NAME From MSCVP_ROLES");
+            while(resultSet.next()) {
+                assignedRoleMap.put(resultSet.getString("ID"),resultSet.getString("Role_NAME"));
+            }
+            
+            
+        } catch (SQLException sql) {
+            throw new ServiceLocatorException(sql);
+        }finally{
+            try {
+                // resultSet Object Checking if it's null then close and set null
+                if(resultSet != null) {
+                    resultSet.close();
+                    resultSet = null;
+                }
+                
+                if(statement != null) {
+                    statement.close();
+                    statement = null;
+                }
+                
+                if(connection != null) {
+                    connection.close();
+                    connection = null;
+                }
+            } catch (SQLException ex) {
+                throw new ServiceLocatorException(ex);
+            }
+        }
+        return assignedRoleMap; // returning the object.
+    }//closing the method.
+     
+     public String UpdateReProcessStatus(String Status,String fileId,String sec_key_Value,String flowFlag) throws ServiceLocatorException{
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        int i=0;
+        String queryString = null;
+        String result = null;
+        
+        connection = ConnectionProvider.getInstance().getConnection();
+        try {
+            //statement = connection.createStatement();
+            
+            queryString = "UPDATE FILES SET REPROCESSSTATUS = '"+ Status +"' WHERE FILE_ID LIKE '" + fileId + "' AND SEC_KEY_VAL LIKE '" +sec_key_Value+"' AND FLOWFLAG like '" +flowFlag+"'";
+          //  System.out.println("update query --->"+queryString);
+            preparedStatement = connection.prepareStatement(queryString);
+            i = preparedStatement.executeUpdate();
+            
+            if(i==1){
+                result = "success";
+            }else{
+                result = "fail";
+            }
+            
+            
+        } catch (SQLException sql) {
+            throw new ServiceLocatorException(sql);
+        }finally{
+            try {
+                // resultSet Object Checking if it's null then close and set null
+                
+                if(preparedStatement != null) {
+                    preparedStatement.close();
+                    preparedStatement = null;
+                }
+                
+                if(connection != null) {
+                    connection.close();
+                    connection = null;
+                }
+            } catch (SQLException ex) {
+                throw new ServiceLocatorException(ex);
+            }
+        }
+        return result; // returning the object.
+    }//closing the method.
+     
+     
+}
+

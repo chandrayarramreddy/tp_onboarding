@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+    <package name="general" namespace="/general" extends="default">    
+        <action name="index">
+            <result>/index.jsp</result>
+        </action>             
+       <action name="login">
+            <result>/general/login.jsp</result>
+        </action> 
+            
+        <action name="tpoLoginCheck" class="com.mss.ediscv.general.LoginAction" method="tpoLoginCheck">
+             <interceptor-ref name="crudStack" />
+            <result type="redirect">/tpOnboarding/tpoSuccess.action</result>
+            <result name="input">/general/login.jsp</result>
+            <result type="redirect" name="login">login.action</result>
+            <result name="error" type="redirect">../exception/exception.action</result> 
+        </action>
+   
+          <action name="tpoLogout" class="com.mss.ediscv.general.LoginAction" method="doLogout">
+            <interceptor-ref name="crudStack" />
+            <result type="redirect">./login.action</result>
+            <result name="error" type="redirect">./login.action</result>
+        </action> 
+        
+        
+    </package>
+</struts>
+

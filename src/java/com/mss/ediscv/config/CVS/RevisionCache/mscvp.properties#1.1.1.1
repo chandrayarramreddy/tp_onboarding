@@ -1,0 +1,53 @@
+# To change this template, choose Tools | Templates
+# and open the template in the editor.
+
+Db.Datasource.Name = jndi/mscvp
+
+
+# User Default Role setting
+user.default.roleid=104
+user.1.name=Admin
+user.100.name=AppUser
+user.101.name=AppAdmin
+user.102.name=TPUser
+user.103.name=TPAdmin
+user.104.name=EFUser
+user.105.name=EFAdmin
+user.106.name=TRNUser
+user.107.name=TRNAdmin
+
+Admin = MSCVP Admin
+##101  AppAdmin
+AppAdmin = GIS On-call, Admin  
+## 100 AppUser
+AppUser = Customer Service, Compliance
+## 102  TPUser
+TPUser = DC, Logistics
+## 104  TPAdmin
+TPAdmin = Credit, AP
+## Programer to work on tickets..
+EFUser = Development 
+
+
+## FILE destination
+
+#mscvp.postpath =  E:\\EDIWorkspace\\poCopiedFiles\\postpath
+#mscvp.prepath =  E:\\EDIWorkspace\\poCopiedFiles\\prepath
+
+mscvp.postpath =  C:\\EDIWorkspace\\poCopiedFiles\\postpath
+mscvp.prepath =  C:\\EDIWorkspace\\poCopiedFiles\\prepath
+
+mscvp.tpPath = C:\\EDIPROGRAMFILES\\TRADINGPARTNER\\
+
+mscvp.docCreationPath = C:\\EDIPROGRAMFILES\\DOCUMENT\\XLS\\
+mscvp.poCreationPath = C:\\EDIPROGRAMFILES\\PO\\XLS\\
+mscvp.shipmentCreationPath = C:\\EDIPROGRAMFILES\\SHIPMENT\\XLS\\
+#mscvp.shipmentCreationPath = /home/miracle/EDIPROGRAMFILES/SHIPMENT/XLS/
+mscvp.invoiceCreationPath = C:\\EDIPROGRAMFILES\\INVOICE\\XLS\\
+#mscvp.invoiceCreationPath = /home/miracle/EDIPROGRAMFILES/INVOICE/XLS/
+mscvp.paymentCreationPath = C:\\EDIPROGRAMFILES\\PAYMENT\\XLS\\
+#mscvp.paymentCreationPath = /home/miracle/EDIPROGRAMFILES/PAYMENT/XLS/
+mscvp.logisticsDocCreationPath = C:\\EDIPROGRAMFILES\\LOGISTICS\\DOCUMENT\\XLS\\
+mscvp.loadTenderingCreationPath = C:\\EDIPROGRAMFILES\\LOGISTICS\\LOADTENDER\\XLS\\
+mscvp.ltResponseCreationPath = C:\\EDIPROGRAMFILES\\LOGISTICS\\LTRESPONSE\\XLS\\
+mscvp.issueTrackFilePath = C:\\issueattachment

@@ -1,0 +1,136 @@
+/*******************************************************************************
+ *
+ * Project : Miracle Supply Chain Visibility portal v2.0
+ *
+ * Package : com.mss.mscvp.utill
+ *
+ * Date    : Mar 12, 2013 1:36:56 PM
+ *
+ * Author  : Nagireddy seerapu <nseerapu@miraclesoft.com>
+ *
+ * File    : ServiceLocator.java
+ *
+
+ * *****************************************************************************
+ */
+package com.mss.ediscv.util;
+
+
+import com.mss.ediscv.ajax.AjaxHandlerService;
+import com.mss.ediscv.ajax.AjaxHandlerServiceImpl;
+import com.mss.ediscv.general.GeneralService;
+import com.mss.ediscv.general.GeneralServiceImpl;
+import com.mss.ediscv.shipment.ShipmentService;
+import com.mss.ediscv.shipment.ShipmentServiceImpl;
+
+import com.mss.ediscv.inv.InvoiceService;
+import com.mss.ediscv.inv.InvoiceServiceImpl;
+
+import com.mss.ediscv.payments.PaymentsService;
+import com.mss.ediscv.payments.PaymentsServiceImpl;
+
+import com.mss.ediscv.doc.DocRepositoryService;
+import com.mss.ediscv.doc.DocRepositoryServiceImpl;
+
+import com.mss.ediscv.issues.IssuesService;
+import com.mss.ediscv.issues.IssuesServiceImpl;
+import com.mss.ediscv.lfc.LifecycleService;
+import com.mss.ediscv.lfc.LifecycleServiceImpl;
+import com.mss.ediscv.logisticsdoc.LogisticsDocService;
+import com.mss.ediscv.logisticsdoc.LogisticsDocServiceImpl;
+import com.mss.ediscv.logisticsloadtendering.LogisticsLoadService;
+import com.mss.ediscv.logisticsloadtendering.LogisticsLoadServiceImpl;
+import com.mss.ediscv.ltResponse.LtResponseService;
+import com.mss.ediscv.ltResponse.LtResponseServiceImpl;
+import com.mss.ediscv.po.PurchaseOrderService;
+import com.mss.ediscv.po.PurchaseOrderServiceImpl;
+import com.mss.ediscv.tp.TpService;
+import com.mss.ediscv.tp.TpServiceImpl;
+import com.mss.ediscv.tradingPartner.TradingPartnerService;
+import com.mss.ediscv.tradingPartner.TradingPartnerServiceImpl;
+import com.mss.ediscv.user.UserService;
+import com.mss.ediscv.user.UserServiceImpl;
+/*
+ * This Class Creates instances of all classes.
+ */
+public class ServiceLocator {
+
+	/** Creates a new instance of ServiceLocator */
+	private ServiceLocator() {
+	}
+
+	public static GeneralService getGeneralService()
+			throws ServiceLocatorException {
+		GeneralService generalService = new GeneralServiceImpl();
+		return generalService;
+	}
+
+	public static ShipmentService getShipmentService()
+			throws ServiceLocatorException {
+		ShipmentService shipmentService = (ShipmentService) new ShipmentServiceImpl();
+		return shipmentService;
+	}
+
+        public static InvoiceService getInvoiceService()throws ServiceLocatorException{
+            InvoiceService invoiceService = new InvoiceServiceImpl();
+            return invoiceService;
+        }
+        
+        public static PaymentsService getPaymentService()throws ServiceLocatorException{
+            PaymentsService paymentsService = new PaymentsServiceImpl();
+            return paymentsService;
+        }
+	  public static DocRepositoryService getDocumentService()throws ServiceLocatorException{
+            DocRepositoryService docRepositoryService = new DocRepositoryServiceImpl();
+            return docRepositoryService;
+        }
+         
+	  public static PurchaseOrderService getPurchaseService()throws ServiceLocatorException{
+            PurchaseOrderService purchaseOrderService = new PurchaseOrderServiceImpl();
+            return purchaseOrderService;
+        }
+          
+          public static AjaxHandlerService getAjaxHandlerService() throws ServiceLocatorException{
+         AjaxHandlerService ajaxHandlerService = new AjaxHandlerServiceImpl();
+            return ajaxHandlerService;
+    }  
+          
+          
+          
+          public static TpService getTpService() throws ServiceLocatorException{
+         TpService tpService = new TpServiceImpl();
+            return tpService;
+    }  
+          
+          public static LifecycleService getLifeCycleService() throws ServiceLocatorException{
+         LifecycleService lifecycleService = new LifecycleServiceImpl();
+            return lifecycleService;
+    }  
+               public static TradingPartnerService getTradingPartnerService() throws ServiceLocatorException{
+         TradingPartnerService tradingPartnerService = new TradingPartnerServiceImpl();
+            return tradingPartnerService;
+    } 
+               
+   public static UserService getUserService() throws ServiceLocatorException{
+         UserService userService = new UserServiceImpl();
+            return userService;
+    } 
+   
+   public static IssuesService getIssuesService() throws ServiceLocatorException{
+         IssuesService issuesService = new IssuesServiceImpl();
+            return issuesService;
+    } 
+   
+    public static LogisticsDocService getLogDocService() throws ServiceLocatorException{
+         LogisticsDocService logisticsDocService = new LogisticsDocServiceImpl();
+            return logisticsDocService;
+    }
+    public static LogisticsLoadService getLoadService() throws ServiceLocatorException{
+         LogisticsLoadService logisticsLoadService = new LogisticsLoadServiceImpl();
+            return logisticsLoadService;
+    }
+     public static LtResponseService getLtResponseService() throws ServiceLocatorException{
+         LtResponseService ltResponseService = new LtResponseServiceImpl();
+            return ltResponseService;
+    }
+}

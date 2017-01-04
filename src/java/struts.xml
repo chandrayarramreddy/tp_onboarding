@@ -1,0 +1,41 @@
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+"http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+   
+    <!-- Configuration for the default package. -->
+<package name="default" extends="struts-default" namespace="/">
+                <interceptors>
+	     <interceptor name="login" class="com.mss.ediscv.general.LoginInterceptor" />
+            <interceptor-stack name="crudStack">
+		  <interceptor-ref name="login"/>
+                <interceptor-ref name="checkbox"/>
+                <interceptor-ref name="params"/>
+                <interceptor-ref name="staticParams"/>
+                <interceptor-ref name="actionMappingParams"/>
+                <interceptor-ref name="defaultStack"/>
+            </interceptor-stack>
+        </interceptors>
+	 
+        <global-results>
+            <result name="sessionExpire">/general/login.jsp</result>
+      </global-results>
+    
+    </package>
+    <constant name="struts.multipart.maxSize" value="5000000" />
+    <constant name="struts.multipart.saveDir" value="/TpOnboardingdetails/Upload"/>
+      <package name="exception" extends="default" namespace="/exception">
+        <action name="exception">
+            <result>Exception.jsp</result>
+        </action>
+        <action name="accessFailed">
+            <result>AccessFailed.jsp</result>
+        </action>
+    </package>
+    <include file="general.xml"/>
+ 
+    <include file="ajax.xml"/>
+
+     <include file="tpOnboarding.xml"/>
+</struts>

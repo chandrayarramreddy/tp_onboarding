@@ -1,0 +1,54 @@
+/*
+ * AjaxHandlerService.java
+ *
+ *  
+ *
+ * To change this template, choose Tools | Template Manager
+ * and open the template in the editor.
+ */
+
+package com.mss.ediscv.ajax;
+
+import com.mss.ediscv.util.ServiceLocatorException;
+
+ 
+ 
+
+/**
+ *
+ * @author miracle
+ */
+public interface AjaxHandlerService {
+    
+    /** Creates a new instance of AjaxHandlerService */
+    
+         
+     public String getPoDetails(String poNumber,String poInst)throws ServiceLocatorException;
+     
+     public String getASNDetails(String asnNumber,String poNumber)throws ServiceLocatorException;
+     public String getInvDetails(String invNumber,String poNumber)throws ServiceLocatorException;
+     public String getPaymentDetails(String fileId)throws ServiceLocatorException;
+     public String getDocDetails(String isaNumber,String poNum) throws ServiceLocatorException;         
+     public String getDocCopy(String poList,String type) throws ServiceLocatorException; 
+     public String getLoadCopy(String loadList,String type) throws ServiceLocatorException; 
+     
+     
+     /**
+      *  Life cycle Actions
+      * 
+      */
+     public String getLifeCycleDetails(String poNumber,String fileId,String type)throws ServiceLocatorException;
+     
+     /**
+      * 
+      * TP Ajax cals
+      */
+     public String getTpDetails(String tpId) throws ServiceLocatorException;
+     public String updateTpDetails(AjaxHandlerAction ajaxHandlerAction)throws ServiceLocatorException;
+     
+     
+     public String getTpDetailInformation(String tpId,String defFlowId) throws ServiceLocatorException;
+     public String getLogisticsDocDetails(String instanceid,String ponum)throws ServiceLocatorException;
+     public String getLoadTenderingDetails(String instanceid,String ponum)throws ServiceLocatorException;
+     public String getLtResponseDetails(String invNum,String ponum)throws ServiceLocatorException;
+}
